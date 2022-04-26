@@ -13,4 +13,7 @@ dependencies {
 
     // 其他 Module
     implementation project(':lib-log')
+
+    // 第三方工具
+    implementation dep.gson
 }
