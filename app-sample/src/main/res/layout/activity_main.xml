@@ -16,10 +16,11 @@
         android:text="@string/version_info" />
 
     <Button
+        android:id="@+id/bt_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Hello World!"
+        android:text="初始化见 Application，其他见日志"
         android:textAllCaps="false" />
 
 </LinearLayout>

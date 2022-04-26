@@ -3,10 +3,10 @@
  */
 ext {
     // sdk version
-    compileSdkVersion = 32
+    compileSdkVersion = 30
     app_minSdkVersion = 19
     lib_minSdkVersion = 19
-    targetSdkVersion = 32
+    targetSdkVersion = 30
 
     // java version
     sourceCompatibilityVersion = JavaVersion.VERSION_1_8
