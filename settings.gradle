@@ -1,0 +1,3 @@
+// rootProject.name = 'LibCase' // 项目名称，影响 Studio 项目名称展示，不建议自定义
+include ':app-sample'
+include ':lib-log'

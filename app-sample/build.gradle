@@ -1,0 +1,16 @@
+apply from: "${rootDir.path}/gradle/build-app.gradle"
+
+android {
+    defaultConfig {
+        applicationId "com.csp.sample.log"
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+dependencies {
+    implementation dep.appcompat
+
+    // 其他 Module
+    implementation project(':lib-log')
+}
