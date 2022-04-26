@@ -19,7 +19,12 @@ public class App extends Application {
             public String toString(Object obj) {
                 String log;
                 try {
-                    log = GsonUtil.getGson().toJson(obj);
+                    // 纯 String 用 Json 会导致 \n 失效，所以要额外处理
+                    if (obj instanceof String) {
+                        log = obj + "";
+                    } else {
+                        log = GsonUtil.getGson().toJson(obj);
+                    }
                 } catch (Exception e) {
                     log = super.toString(obj);
                 }

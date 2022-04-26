@@ -62,10 +62,13 @@ public class LogCat {
      */
     public static void printStackTrace(boolean onlyDebug, int level, int stackId, String explain, Throwable throwable) {
         if (sLogger != null) {
+            // 调用栈信息
             StackTraceElement[] stackTrace = new Exception().getStackTrace();
             String tag = getInvoke(stackTrace[stackId]);
 
             sLogger.printStackTrace(onlyDebug, level, tag, explain, throwable);
+        } else if (!onlyDebug && throwable != null) {
+            throwable.printStackTrace();
         }
     }
 

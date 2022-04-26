@@ -46,23 +46,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.bt_test:
-                LogCat.e("========== 不带占位符 ==========");
-                LogCat.e("string");
-                LogCat.e(true);
-                LogCat.e('c');
-                LogCat.e(1.2);
-                LogCat.e("数组", "string", true, 'c', 1.2);
-                LogCat.e("集合", mList);
-                LogCat.e("任意对象", new Bean());
+        if (v.getId() == R.id.bt_test) {
+            LogCat.e("对接 Android 日志，则会在 tag 中打印日志调用类与方法信息");
 
-                LogCat.e("========== 带占位符 ==========");
-                LogCat.e("String = %s，Boolean = %s，Char = %s，Double = %s", "string", true, 'c', 1.2);
-                LogCat.e("Bean = %s\n%s\n%s", new Bean(), new Bean(), new Bean());
-                break;
-            default:
-                break;
+            LogCat.w("\n========== 不带占位符 ==========");
+            LogCat.w("string");
+            LogCat.w(true);
+            LogCat.w('c');
+            LogCat.w(1.2);
+            LogCat.w("数组", "string", true, 'c', 1.2);
+            LogCat.w("集合", mList);
+            LogCat.w("任意对象", new Bean());
+
+            LogCat.e("\n========== 带占位符 ==========");
+            LogCat.e("String = %s，Boolean = %s，Char = %s，Double = %s", "string", true, 'c', 1.2);
+            LogCat.e("Bean = %s\n%s\n%s", new Bean(), new Bean(), new Bean());
+
+            LogCat.e("\n========== 异常 ==========");
+            LogCat.printStackTrace(new Exception("此处发生异常"));
+            LogCat.printStackTrace(LogCat.INFO, "此处发生异常", new Exception("此处发生异常"));
+            LogCat.printStackTraceForDebug(LogCat.INFO, "仅 debug 模式打印异常", new Exception("仅 debug 模式打印异常"));
+
+            LogCat.e("\n========== 调整调用栈索引 ==========");
+            LogCat.log(LogCat.WARN, 4, "调整日志打印调用栈索引，注意 tag");
+            LogCat.printStackTrace(false, LogCat.WARN, 4, null, new Exception("异常：调整日志打印调用栈索引，注意 tag"));
         }
     }
 }
