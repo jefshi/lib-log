@@ -1,4 +1,4 @@
-# Android 日志打印库
+# 日志打印工具
 
 ## 前言
 
@@ -10,7 +10,7 @@
 ## 集成步骤
 
 ``` gradle
-implementation 'com.csp.lib:log:1.0.0'
+implementation 'io.github.jefshi:lib-log:1.0.0'
 ```
 
 ### 库的基本用法

@@ -12,7 +12,8 @@ dependencies {
     implementation dep.appcompat
 
     // 其他 Module
-    implementation project(':lib-log')
+    // implementation project(':lib-log')
+    implementation 'io.github.jefshi:lib-log:1.0.0'
 
     // 第三方工具
     implementation dep.gson
