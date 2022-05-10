@@ -103,18 +103,16 @@ public class LogCatAndroid implements ILog {
      * @return 异常栈信息
      */
     @NonNull
-    public static String getStackTraceString(@Nullable Throwable throwable) {
+    private static String getStackTraceString(@Nullable Throwable throwable) {
         if (throwable == null) {
             return "";
         }
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        throwable.printStackTrace(pw);
-        pw.flush();
-        String result = sw.toString();
-        try {
-            sw.close();
-            pw.close();
+        String result = "";
+        try (StringWriter sw = new StringWriter();
+             PrintWriter pw = new PrintWriter(sw)) {
+            throwable.printStackTrace(pw);
+            pw.flush();
+            result = sw.toString();
         } catch (IOException e) {
             LogCat.printStackTraceForDebug(e);
         }

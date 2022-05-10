@@ -7,6 +7,11 @@
 - core：纯 java 代码
 - android：针对 Android 的日志打印方式
 
+使用说明：
+1. 需要完成一次初始化，否则默认仅打印异常日志，具体见章节【库的基本用法】
+2. 会在 tag 中打印日志调用类与方法信息，同时可以通过调整调用栈索引，修改调用信息，具体见章节【库的基本用法】
+3. 本库自带的 Sample 将对象打印的输出方式重写为：未重写 toString() 时使用 Json 格式，否则使用 toString()，具体参考章节【库的基本用法】
+
 ## 集成步骤
 
 ``` gradle
@@ -25,17 +30,19 @@ implementation 'io.github.jefshi:lib-log:1.0.0'
 LogCat.setLogger(new LogCatAndroid(BuildConfig.DEBUG) {
     @Override
     public String toString(Object obj) {
-        String log;
+        // 如果未重写 toString() 则用 Json 格式转换为字符串，否则使用 toString() 转换
+        String log = String.valueOf(obj);
         try {
-            // 纯 String 用 Json 会导致 \n 失效，所以要额外处理
-            if (obj instanceof String) {
-                log = obj + "";
-            } else {
-                // log = new Gson().toJson(obj);
-                log = GsonUtil.getGson().toJson(obj);
+            boolean notOverwriteToString = log.contains("@");
+            if (notOverwriteToString) {
+                // 纯 String 用 Json 会导致 \n 失效，所以要额外处理
+                if (obj instanceof String) {
+                    log = obj + "";
+                } else {
+                    log = GsonUtil.getGson().toJson(obj);
+                }
             }
-        } catch (Exception e) {
-            log = super.toString(obj);
+        } catch (Exception ignored) {
         }
         return log;
     }
@@ -45,7 +52,10 @@ LogCat.setLogger(new LogCatAndroid(BuildConfig.DEBUG) {
 日志打印
 
 ``` java
-LogCat.e("对接 Android 日志，则会在 tag 中打印日志调用类与方法信息");
+LogCat.e("\n========== 使用说明 ==========");
+LogCat.e("1. 需要完成一次初始化，否则默认仅打印异常日志，初始化见 Application");
+LogCat.e("2. 会在 tag 中打印日志调用类与方法信息，同时可以通过调整调用栈索引，修改调用信息");
+LogCat.e("3. 本 Sample 将对象打印的输出方式重写为 Json 格式（如果对象没有重写 toString 方法的话）");
 
 LogCat.w("\n========== 不带占位符 ==========");
 LogCat.w("string");
@@ -54,7 +64,8 @@ LogCat.w('c');
 LogCat.w(1.2);
 LogCat.w("数组", "string", true, 'c', 1.2);
 LogCat.w("集合", mList);
-LogCat.w("任意对象", new Bean());
+LogCat.w("任意对象（未重写 toString()）", new Bean());
+LogCat.w("任意对象（已重写 toString()）", Environment.getRootDirectory());
 
 LogCat.e("\n========== 带占位符 ==========");
 LogCat.e("String = %s，Boolean = %s，Char = %s，Double = %s", "string", true, 'c', 1.2);

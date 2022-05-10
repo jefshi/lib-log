@@ -17,16 +17,19 @@ public class App extends Application {
         LogCat.setLogger(new LogCatAndroid(BuildConfig.DEBUG) {
             @Override
             public String toString(Object obj) {
-                String log;
+                // 如果未重写 toString() 则用 Json 格式转换为字符串，否则使用 toString() 转换
+                String log = String.valueOf(obj);
                 try {
-                    // 纯 String 用 Json 会导致 \n 失效，所以要额外处理
-                    if (obj instanceof String) {
-                        log = obj + "";
-                    } else {
-                        log = GsonUtil.getGson().toJson(obj);
+                    boolean notOverwriteToString = log.contains("@");
+                    if (notOverwriteToString) {
+                        // 纯 String 用 Json 会导致 \n 失效，所以要额外处理
+                        if (obj instanceof String) {
+                            log = obj + "";
+                        } else {
+                            log = GsonUtil.getGson().toJson(obj);
+                        }
                     }
-                } catch (Exception e) {
-                    log = super.toString(obj);
+                } catch (Exception ignored) {
                 }
                 return log;
             }

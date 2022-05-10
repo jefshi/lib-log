@@ -47,7 +47,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.bt_test) {
-            LogCat.e("对接 Android 日志，则会在 tag 中打印日志调用类与方法信息");
+            LogCat.e("\n========== 使用说明 ==========");
+            LogCat.e("1. 需要完成一次初始化，否则默认仅打印异常日志，初始化见 Application");
+            LogCat.e("2. 会在 tag 中打印日志调用类与方法信息，同时可以通过调整调用栈索引，修改调用信息");
+            LogCat.e("3. 本 Sample 将对象打印的输出方式重写为：未重写 toString() 时使用 Json 格式，否则使用 toString()");
 
             LogCat.w("\n========== 不带占位符 ==========");
             LogCat.w("string");
@@ -56,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             LogCat.w(1.2);
             LogCat.w("数组", "string", true, 'c', 1.2);
             LogCat.w("集合", mList);
-            LogCat.w("任意对象", new Bean());
+            LogCat.w("任意对象（未重写 toString()）", new Bean());
+            LogCat.w("任意对象（已重写 toString()）", Thread.currentThread());
 
             LogCat.e("\n========== 带占位符 ==========");
             LogCat.e("String = %s，Boolean = %s，Char = %s，Double = %s", "string", true, 'c', 1.2);
