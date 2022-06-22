@@ -1,11 +1,5 @@
 package com.csp.lib.log;
 
-import android.content.Context;
-
-import androidx.test.InstrumentationRegistry;
-
-import org.junit.Test;
-
 /**
  * Instrumentation test, which will execute on an Android device.
  *

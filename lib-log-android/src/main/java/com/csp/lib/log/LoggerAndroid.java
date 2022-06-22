@@ -1,21 +1,14 @@
-package com.csp.lib.log.android;
+package com.csp.lib.log;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
-import com.csp.lib.log.core.ILog;
-import com.csp.lib.log.core.LogCat;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 日志打印
+ * 日志打印器 - Android
  * Created by csp on 2017/07/14
  * Modified by csp on 2021/08/10
  *
@@ -23,7 +16,7 @@ import java.util.List;
  * @version 1.0.7
  */
 @SuppressWarnings("unused")
-public class LogCatAndroid implements ILog {
+public class LoggerAndroid implements ILog {
 
     /**
      * Android 能够打印的最大日志长度
@@ -31,11 +24,17 @@ public class LogCatAndroid implements ILog {
     private final static int LOG_MAX_LENGTH = 3072;
 
     /**
-     * 日志开关，true：可以打印日志
+     * 日志开关
+     * true：打印所有日志
+     * false：除了非 debug 级别的异常日志，其余日志都不打印
      */
     private boolean mDebug;
 
-    public LogCatAndroid(boolean debug) {
+    public LoggerAndroid(boolean debug) {
+        mDebug = debug;
+    }
+
+    public void setDebug(boolean debug) {
         mDebug = debug;
     }
 
@@ -72,11 +71,12 @@ public class LogCatAndroid implements ILog {
         if (message == null) {
             message = "";
         }
-        String stackTrace = getStackTraceString(throwable);
+        String stackTrace = LogCat.getStackTraceString(throwable);
         String newline = message.isEmpty() || stackTrace.isEmpty() ? "" : "\n";
         String[] messages = divideMessages(message + newline + stackTrace);
         for (String msg : messages) {
             switch (level) {
+                case LogCat.ASSERT:
                 case LogCat.ERROR:
                     Log.e(tag, msg);
                     break;
@@ -89,34 +89,12 @@ public class LogCatAndroid implements ILog {
                 case LogCat.DEBUG:
                     Log.d(tag, msg);
                     break;
+                case LogCat.VERBOSE:
                 default:
                     Log.v(tag, msg);
                     break;
             }
         }
-    }
-
-    /**
-     * 获取异常栈信息
-     *
-     * @param throwable 异常错误对象
-     * @return 异常栈信息
-     */
-    @NonNull
-    private static String getStackTraceString(@Nullable Throwable throwable) {
-        if (throwable == null) {
-            return "";
-        }
-        String result = "";
-        try (StringWriter sw = new StringWriter();
-             PrintWriter pw = new PrintWriter(sw)) {
-            throwable.printStackTrace(pw);
-            pw.flush();
-            result = sw.toString();
-        } catch (IOException e) {
-            LogCat.printStackTraceForDebug(e);
-        }
-        return result;
     }
 
     /**
