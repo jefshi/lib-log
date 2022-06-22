@@ -15,19 +15,24 @@
 ## 集成步骤
 
 ``` gradle
-implementation 'io.github.jefshi:lib-log:1.0.0'
+implementation 'io.github.jefshi:lib-log-core:1.0.0'
+implementation 'io.github.jefshi:lib-log-android:1.0.0'
 ```
+
+如果仅用于 java 库或项目，则只需依赖 `lib-log-core` 就行
 
 ### 库的基本用法
 
 初始化日志
 - 未初始化：仅打印异常日志
 - 通过 `LogCat#setLogger(ILog)` 初始化，如：
-	- Android + obj.toString() 方式：`LogCat.setLogger(new LogCatAndroid(BuildConfig.DEBUG))`
+	- Java + obj.toString() 方式：`LogCat.setLogger(new LoggerJava(true))`
+	- Java + Json 方式：参考【Android + Json】
+	- Android + obj.toString() 方式：`LogCat.setLogger(new LoggerAndroid(BuildConfig.DEBUG))`
 	- Android + Json 方式
 
 ``` java
-LogCat.setLogger(new LogCatAndroid(BuildConfig.DEBUG) {
+LogCat.setLogger(new LoggerAndroid(BuildConfig.DEBUG) {
     @Override
     public String toString(Object obj) {
         // 如果未重写 toString() 则用 Json 格式转换为字符串，否则使用 toString() 转换

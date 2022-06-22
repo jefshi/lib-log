@@ -3,6 +3,17 @@ apply plugin: 'java-library'
 sourceCompatibility = project.sourceCompatibilityVersion
 targetCompatibility = project.targetCompatibilityVersion
 
+apply from: "${rootDir.path}/gradle/maven_central_jar.gradle"
+uploadArchives {
+    repositories.mavenDeployer {
+        pom.project {
+            name 'lib-log-core'
+            artifactId 'lib-log-core'
+            version '1.0.0'
+        }
+    }
+}
+
 dependencies {
     implementation dep.annotation
 }
