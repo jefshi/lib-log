@@ -1,0 +1,8 @@
+apply plugin: 'java-library'
+
+sourceCompatibility = project.sourceCompatibilityVersion
+targetCompatibility = project.targetCompatibilityVersion
+
+dependencies {
+    implementation dep.annotation
+}

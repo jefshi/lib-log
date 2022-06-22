@@ -1,7 +1,7 @@
-package com.csp.lib.log.core;
+package com.csp.lib.log;
 
 /**
- * 日志打印接口
+ * 日志打印器接口
  * Created by csp on 2022/04/25
  * Modified by csp on 2022/04/25
  *

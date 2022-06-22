@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.csp.lib.log.core.LogCat;
+import com.csp.lib.log.LogCat;
 import com.csp.sample.log.model.Bean;
 
 import java.util.ArrayList;

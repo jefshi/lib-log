@@ -2,7 +2,7 @@ package com.csp.sample.log.util;
 
 import androidx.annotation.NonNull;
 
-import com.csp.lib.log.core.LogCat;
+import com.csp.lib.log.LogCat;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

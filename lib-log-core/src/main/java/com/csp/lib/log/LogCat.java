@@ -1,11 +1,15 @@
-package com.csp.lib.log.core;
+package com.csp.lib.log;
 
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Arrays;
 
 /**
- * 日志打印
+ * 日志打印工具
  * Created by csp on 2017/07/14
  * Modified by csp on 2021/08/10
  *
@@ -16,7 +20,7 @@ import java.util.Arrays;
 public class LogCat {
 
     /**
-     * 日志等级，抄录自安卓的 {@link Log}
+     * 日志等级，抄录自安卓的 android.util.Log
      */
     public final static int VERBOSE = 2;
     public final static int DEBUG = 3;
@@ -36,12 +40,16 @@ public class LogCat {
     public final static int DEFAULT_STACK_ID = 3;
 
     /**
-     * 单例
+     * 日志打印器 - 单例
      */
     private static ILog sLogger;
 
     public static void setLogger(ILog logger) {
         sLogger = logger;
+    }
+
+    public static ILog getLogger() {
+        return sLogger;
     }
 
     /**
@@ -122,6 +130,29 @@ public class LogCat {
     }
 
     /**
+     * 获取异常栈信息
+     *
+     * @param throwable 异常错误对象
+     * @return 异常栈信息
+     */
+    @NonNull
+    public static String getStackTraceString(@Nullable Throwable throwable) {
+        if (throwable == null) {
+            return "";
+        }
+        String result = "";
+        try (StringWriter sw = new StringWriter();
+             PrintWriter pw = new PrintWriter(sw)) {
+            throwable.printStackTrace(pw);
+            pw.flush();
+            result = sw.toString();
+        } catch (IOException e) {
+            LogCat.printStackTraceForDebug(e);
+        }
+        return result;
+    }
+
+    /**
      * 普通日志打印
      *
      * @param level            日志等级，{@link LogCat#ERROR}
@@ -130,7 +161,6 @@ public class LogCat {
      * @param messages         {@link String#format(String, Object...)}
      * @see ILog#log(int, String, String)
      */
-
     public static void log(int level, int invokeStackIndex, String explain, Object... messages) {
         if (sLogger == null) {
             return;
@@ -173,69 +203,69 @@ public class LogCat {
      * @see #log(int, String, Object...)
      */
     public static void e(String explain, Object... messages) {
-        log(Log.ERROR, explain, messages);
+        log(ERROR, explain, messages);
     }
 
     /**
      * @see #log(int, String, Object...)
      */
     public static void e(Object message) {
-        log(Log.ERROR, null, message);
+        log(ERROR, null, message);
     }
 
     /**
      * @see #log(int, String, Object...)
      */
     public static void w(String explain, Object... messages) {
-        log(Log.WARN, explain, messages);
+        log(WARN, explain, messages);
     }
 
     /**
      * @see #log(int, String, Object...)
      */
     public static void w(Object message) {
-        log(Log.WARN, null, message);
+        log(WARN, null, message);
     }
 
     /**
      * @see #log(int, String, Object...)
      */
     public static void i(String explain, Object... messages) {
-        log(Log.INFO, explain, messages);
+        log(INFO, explain, messages);
     }
 
     /**
      * @see #log(int, String, Object...)
      */
     public static void i(Object message) {
-        log(Log.INFO, null, message);
+        log(INFO, null, message);
     }
 
     /**
      * @see #log(int, String, Object...)
      */
     public static void d(String explain, Object... messages) {
-        log(Log.DEBUG, explain, messages);
+        log(DEBUG, explain, messages);
     }
 
     /**
      * @see #log(int, String, Object...)
      */
     public static void d(Object message) {
-        log(Log.DEBUG, null, message);
+        log(DEBUG, null, message);
     }
 
     /**
      * @see #log(int, String, Object...)
      */
     public static void v(String explain, Object... messages) {
-        log(Log.VERBOSE, explain, messages);
+        log(VERBOSE, explain, messages);
     }
 
     /**
      * @see #log(int, String, Object...)
      */
     public static void v(Object message) {
-        log(Log.VERBOSE, null, message);
+        log(VERBOSE, null, message);
     }
 }
