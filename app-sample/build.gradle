@@ -4,7 +4,7 @@ android {
     defaultConfig {
         applicationId "com.csp.sample.log"
         versionCode 1
-        versionName "1.0"
+        versionName "1.1.0"
     }
 }
 
@@ -15,7 +15,7 @@ dependencies {
     // implementation project(':lib-log-core')
     // implementation project(':lib-log-android')
     implementation 'io.github.jefshi:lib-log-core:1.0.0'
-    implementation 'io.github.jefshi:lib-log-android:1.0.0'
+    implementation 'io.github.jefshi:lib-log-android:1.0.1'
 
     // 第三方工具
     implementation dep.gson

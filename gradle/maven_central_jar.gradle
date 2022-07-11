@@ -7,7 +7,8 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-// 打包的资源内容
+// 打包的资源内容：首次生成 javaDoc 会报错，但 build/docs 会正常生成，所以再上传一次就好了
+[javadoc]*.options*.encoding = 'UTF-8'
 task javadocJar(type: Jar) {
     archiveClassifier.set("javadoc")
     from javadoc
@@ -16,6 +17,11 @@ task javadocJar(type: Jar) {
 task sourcesJar(type: Jar) {
     archiveClassifier.set("sources")
     from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
 }
 
 // GPG 密钥签名，配置信息放【~/.gradle/gradle.properties】

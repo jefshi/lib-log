@@ -3,7 +3,7 @@ apply from: "${rootDir.path}/gradle/build-lib.gradle"
 android {
     defaultConfig {
         versionCode 1
-        versionName '1.0.0'
+        versionName '1.0.1'
     }
 }
 
@@ -19,5 +19,6 @@ uploadArchives {
 
 // 依赖
 dependencies {
-    implementation project(':lib-log-core')
+    // implementation project(':lib-log-core')
+    implementation 'io.github.jefshi:lib-log-core:1.0.0'
 }
