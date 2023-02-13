@@ -19,7 +19,7 @@ Android 集成
 
 ``` gradle
 implementation 'io.github.jefshi:lib-log-core:1.0.0'
-implementation 'io.github.jefshi:lib-log-android:1.0.1'
+implementation 'io.github.jefshi:lib-log-android:1.0.2'
 ```
 
 Java 集成
@@ -185,6 +185,9 @@ LogCat.printStackTrace(false, LogCat.WARN, 4, null, new Exception("异常：调�
 其他参考 Sample
 
 ## 历史版本
+
+2023.02.13
+- 阿里云同步有问题，导致 `io.github.jefshi:lib-log-android:1.0.1` 无法下载
 
 2022.06.22
 - 拆分成 core（java 库）以及 android 两个库

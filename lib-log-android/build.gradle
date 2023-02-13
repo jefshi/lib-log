@@ -3,7 +3,7 @@ apply from: "${rootDir.path}/gradle/build-lib.gradle"
 android {
     defaultConfig {
         versionCode 1
-        versionName '1.0.1'
+        versionName '1.0.2'
     }
 }
 
