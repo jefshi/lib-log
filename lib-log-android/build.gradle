@@ -7,15 +7,22 @@ android {
     }
 }
 
-// maven 发布，必须在 android.defaultConfig.versionName 配置之后，以便获取版本名称
-apply from: "${rootDir.path}/gradle/maven_central.gradle"
-uploadArchives {
-    repositories.mavenDeployer {
-        pom.project {
-            version android.defaultConfig.versionName
-        }
-    }
-}
+//// maven 发布，必须在 android.defaultConfig.versionName 配置之后，以便获取版本名称
+//apply from: "${rootDir.path}/gradle/maven_publish_central.gradle"
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            mavenLib(MavenPublication) {
+//                groupId = POM_GROUP_ID
+//                artifactId = 'lib-log-android'
+//                version = android.defaultConfig.versionName // [SNAPSHOT] 必须大写
+//                pom {
+//                    description = POM_DESCRIPTION
+//                }
+//            }
+//        }
+//    }
+//}
 
 // 依赖
 dependencies {

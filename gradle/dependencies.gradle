@@ -3,14 +3,14 @@
  */
 ext {
     // sdk version
-    compileSdkVersion = 30
-    app_minSdkVersion = 19
+    compileSdkVersion = 33
+    app_minSdkVersion = 24
     lib_minSdkVersion = 19
-    targetSdkVersion = 30
+    targetSdkVersion = 33
 
     // java version
-    sourceCompatibilityVersion = JavaVersion.VERSION_1_8
-    targetCompatibilityVersion = JavaVersion.VERSION_1_8
+    sourceCompatibilityVersion = JavaVersion.VERSION_11
+    targetCompatibilityVersion = JavaVersion.VERSION_11
 
     dep = [
             // Android 系统

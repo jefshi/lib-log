@@ -1,18 +1,23 @@
 apply plugin: 'java-library'
 
-sourceCompatibility = project.sourceCompatibilityVersion
-targetCompatibility = project.targetCompatibilityVersion
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
-apply from: "${rootDir.path}/gradle/maven_central_jar.gradle"
-uploadArchives {
-    repositories.mavenDeployer {
-        pom.project {
-            name 'lib-log-core'
-            artifactId 'lib-log-core'
-            version '1.0.0'
-        }
-    }
-}
+//apply from: "${rootDir.path}/gradle/maven_publish_central.gradle"
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            mavenLib(MavenPublication) {
+//                groupId = POM_GROUP_ID
+//                artifactId = 'lib-log-core'
+//                version = '1.1.0-SNAPSHOT' // [SNAPSHOT] 必须大写
+//                pom {
+//                    description = POM_DESCRIPTION
+//                }
+//            }
+//        }
+//    }
+//}
 
 dependencies {
     implementation dep.annotation
