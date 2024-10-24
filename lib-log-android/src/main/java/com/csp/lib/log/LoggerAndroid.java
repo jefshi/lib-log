@@ -19,9 +19,10 @@ import java.util.List;
 public class LoggerAndroid implements ILog {
 
     /**
-     * Android 能够打印的最大日志长度
+     * Android 能够打印的最大日志长度（单位 byte）：
+     * 1. 经测试最多可输出 4043 byte，故最多可输出 4043 个纯字母，或 1347 个纯汉字（一个汉字 3 byte）
      */
-    private final static int LOG_MAX_LENGTH = 3072;
+    private final static int LOG_MAX_LENGTH = 4001;
 
     /**
      * 日志开关
@@ -103,30 +104,47 @@ public class LoggerAndroid implements ILog {
      * @param message 日志内容
      * @return 分割后的日志
      */
-    private String[] divideMessages(@NonNull String message) {
-        if (message.length() <= LOG_MAX_LENGTH) {
+    private static String[] divideMessages(@NonNull String message) {
+        if (message.getBytes().length <= LOG_MAX_LENGTH) {
             return new String[]{message};
         }
 
-        String part;
         int index;
+        String part;
         List<String> list = new ArrayList<>();
-        while (true) {
-            if (message.length() <= LOG_MAX_LENGTH) {
-                list.add(message);
-                break;
-            }
+        while (message.getBytes().length > LOG_MAX_LENGTH) {
+            part = message.length() <= LOG_MAX_LENGTH ? message : message.substring(0, LOG_MAX_LENGTH);
+            do {
+                index = part.lastIndexOf('\n');
+                if (index > -1 && index != part.length() - 1) {
+                    part = part.substring(0, index + 1);
+                } else if (part.getBytes().length > LOG_MAX_LENGTH) {
+                    part = subPart(part, 0, part.length());
+                }
+            } while (part.getBytes().length > LOG_MAX_LENGTH);
 
-            part = message.substring(0, LOG_MAX_LENGTH);
-            index = part.lastIndexOf('\n');
-            if (index > -1) {
-                part = message.substring(0, index + 1);
-            }
             list.add(part);
             message = message.substring(part.length());
+        }
+        if (!message.isEmpty()) {
+            list.add(message);
         }
 
         String[] strings = new String[list.size()];
         return list.toArray(strings);
+    }
+
+    @NonNull
+    private static String subPart(String str, int small, int big) {
+        int index = (small + big) >> 1;
+        if (index == small) {
+            return str.substring(0, small);
+        }
+        String sub = str.substring(0, index);
+        if (sub.getBytes().length > LOG_MAX_LENGTH) {
+            return subPart(str, small, index);
+        } else {
+            return subPart(str, index, big);
+        }
     }
 }

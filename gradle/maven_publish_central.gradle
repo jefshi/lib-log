@@ -50,14 +50,14 @@ if (isAar) {
 }
 
 // GPG 密钥签名，配置信息放【~/.gradle/gradle.properties】
-signing {
-    sign configurations.archives
-}
+//signing {
+//    sign configurations.archives
+//}
 
 // GPG 密钥签名，配置信息放【~/.gradle/gradle.properties】
-signing {
-    sign publishing.publications.mavenJar
-}
+//signing {
+//    sign publishing.publications.mavenJar
+//}
 
 // maven 打包并上传
 // 官方文档：https://docs.gradle.org/current/userguide/publishing_maven.html

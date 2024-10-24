@@ -15,7 +15,7 @@ dependencies {
     // implementation project(':lib-log-core')
     // implementation project(':lib-log-android')
     implementation 'io.github.jefshi:lib-log-core:1.0.0'
-    implementation 'io.github.jefshi:lib-log-android:1.0.2'
+    implementation 'io.github.jefshi:lib-log-android:1.1.0'
 
     // 第三方工具
     implementation dep.gson
