@@ -31,6 +31,7 @@ def isAar = project.plugins.hasPlugin('com.android.library')
 
 // maven 打包并上传
 // 官方文档：https://docs.gradle.org/current/userguide/publishing_maven.html
+// Maven Central 官方要求文档：https://central.sonatype.org/publish/requirements/
 afterEvaluate {
     // afterEvaluate 主要目的是获取已配置好的其他配置信息，如 bundleReleaseAar 任务、android.defaultConfig.versionName
     publishing {
