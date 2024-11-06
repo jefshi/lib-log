@@ -13,11 +13,10 @@ afterEvaluate {
     publishing {
         publications {
             mavenLib(MavenPublication) {
-                groupId = POM_GROUP_ID
                 artifactId = 'lib-log-android'
                 version = android.defaultConfig.versionName // [SNAPSHOT] 必须大写
                 pom {
-                    description = POM_DESCRIPTION
+                    description = '轻量级日志打印工具：适配Android'
                 }
             }
         }

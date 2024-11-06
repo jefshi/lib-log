@@ -3,16 +3,16 @@ apply plugin: 'java-library'
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+// maven 发布
 apply from: "${rootDir.path}/gradle/maven_publish_central.gradle"
 afterEvaluate {
     publishing {
         publications {
             mavenLib(MavenPublication) {
-                groupId = POM_GROUP_ID
                 artifactId = 'lib-log-core'
                 version = '1.0.0' // [SNAPSHOT] 必须大写
                 pom {
-                    description = POM_DESCRIPTION
+                    description = '轻量级日志打印工具核心组件'
                 }
             }
         }

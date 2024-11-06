@@ -3,24 +3,44 @@
  * @version 1.0.0
  */
 
-// Demo
-//// maven 发布，必须在 android.defaultConfig.versionName 配置之后，以便获取版本名称
-//apply from: "${rootDir.path}/gradle/maven_publish_central.gradle"
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            mavenLib(MavenPublication) {
-//                groupId = POM_GROUP_ID
-//                artifactId = '组件ID，可带-'
-//                version = '1.0.0-SNAPSHOT' // [SNAPSHOT] 必须大写
-//                version = android.defaultConfig.versionName // [SNAPSHOT] 必须大写
-//                pom {
-//                    description = '描述'
-//                }
-//            }
-//        }
-//    }
-//}
+// 使用 Demo（3步）
+// 1. 待发布 module 目录/build.gradle 添加以下内容，可增删减
+// // maven 发布，必须在 android.defaultConfig.versionName 配置之后，以便获取版本名称
+// apply from: "${rootDir.path}/gradle/maven_publish_central.gradle"
+// afterEvaluate {
+//     publishing {
+//         publications {
+//             mavenLib(MavenPublication) {
+//                 groupId = POM_GROUP_ID
+//                 artifactId = '组件ID，可带-'
+//                 version = '1.0.0-SNAPSHOT' // 要么没有[SNAPSHOT]，要么[SNAPSHOT]必须大写
+//                 version = android.defaultConfig.versionName // [SNAPSHOT] 必须大写
+//                 pom {
+//                     description = '描述'
+//                 }
+//             }
+//         }
+//     }
+// }
+// 2. gradle.properties 文件配置添加以下内容
+// # maven_publish_central.gradle 相关
+// POM_GROUP_ID           = 以 Sonatype 账户 Issue 中申请的 group_id 开头
+// POM_ARTIFACT_ID        = 组件ID
+// POM_DESCRIPTION        = 组件描述
+// POM_SCM_URL            = 项目访问地址，如 github 地址
+// POM_SCM_CONNECTION     = 项目源码下载地址，如 github clone 地址
+// POM_DEVELOPER_ID       = 开发者ID
+// POM_DEVELOPER_NAME     = 开发者名称
+// POM_DEVELOPER_EMAIL    = 开发者邮箱
+// 3. ~/.gradle/gradle.properties 文件配置添加以下内容
+// # GPG 配置信息
+// signing.keyId = 公钥ID（的最后8位）
+// signing.password = GPG 密码
+// signing.secretKeyRingFile = ~/.gnupg/secring.gpg
+//
+// # OSS 仓库账户密码
+// ossrhUsername = OSS 账户，这个倒可以写在 local.properties
+// ossrhPassword = OSS 密码，同上
 
 // maven 插件
 apply plugin: 'maven-publish'
@@ -116,12 +136,10 @@ afterEvaluate {
     }
     // GPG 密钥签名，配置信息放【~/.gradle/gradle.properties】
     signing {
-        if (isAar) {
-            sign configurations.archives
-        } else if (isJar) {
-            // mavenLib 源于前面的 publishing 里的发布配置名称
-            sign publishing.publications.mavenLib
-        }
+        // 会根据前面的 publishing 里的发布配置名称，生成一个以 sign 开头的任务，本配置为：signMavenLibPublication
+        // 签名成功会在 build/outputs 下有 asc 格式文件
+        required true
+        sign publishing.publications
     }
 }
 
@@ -149,6 +167,7 @@ if (isAar) {
 // 发布成功后，打印发布信息
 tasks.withType(PublishToMavenRepository) {
     doLast {
+        // mavenLib 源于前面的 publishing 里的发布配置名称
         def pom = publishing.publications.mavenLib
         def repo = it.name.endsWith('ToSnapshotsRepository') ? publishing.repositories.snapshots
                 : it.name.endsWith('ToReleasesRepository') ? publishing.repositories.releases
